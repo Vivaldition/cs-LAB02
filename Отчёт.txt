@@ -1,0 +1,559 @@
+Имитируют папку lab02/alice
+$ mkdir alice
+
+Имитируют папку lab02/bob
+$ mkdir bob
+
+Перейдем в каталог alice
+$ cd alice
+
+Создайём каталог project и перейдите в него
+$ mkdir project
+$ cd project
+
+Переходим из каталога проекта вверх, затем возращаемся в каталог project.
+$ cd ..
+$ cd project
+
+Инициализируем репозитарий в текущем каталоге (project)
+$ git init
+Initialized empty Git repository in 
+админ@pc MINGW64 ~/Desktop/lab02/alice/project/.git/
+
+Настроим репозитарий Алисы, чтобы коммиты были от ее имени
+$ git config user.name 'Alice (AlyonaB)'
+$ git config user.email 'Vivaldition@yandex.ru'
+
+Вернувшись в Git Bash, просмотрим состояние рабочей копии
+$ git status
+
+Добавим файл main.cpp в отслеживаемые (в индекс)
+$ git add main.cpp
+
+Cмотрим состояние рабочей копии и видим как мы добавили в слежку файл main.cpp
+$ git status
+On branch master
+No commits yet
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   main.cpp
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        project.cbp
+
+Выполним коммит с файлом main.cpp и коротким сообщением
+$ git commit -m 'code: заготовка программы'
+[master (root-commit) 5629e12] code: заготовка программы
+ 1 file changed, 9 insertions(+)
+ create mode 100644 alice/project/main.cpp
+
+Добавим файл project.cbp в отслеживаемые (в индекс)
+$ git add project.cbp
+warning: LF will be replaced by CRLF in alice/project/project.cbp.
+The file will have its original line endings in your working directory
+
+Проверяем
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   project.cbp
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+Выполним коммит с файлом project.cbp и коротким сообщением
+$ git commit -m 'build: add project file'
+[master cbb10a4] build: add project file
+ 1 file changed, 40 insertions(+)
+ create mode 100644 alice/project/project.cbp
+
+Выполним коммит с файлом main.cpp где добавили Ввод 
+$ git commit -a -m "code: add CIN A and B"
+[master 2447fbe] code: add CIN A and B
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+Проверям и видим ,что статус файла main.cpp изменился с "new file:" на  "modified:"
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   main.cpp
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        bin/
+        obj/
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Выполним коммит с файлом main.cpp где добавили Вывод Сложения. 
+Также {git commit -a -m "..."} позволяет делать комммит в один шаг. 
+$ git commit -a -m "code: add Cout A + B"
+[master 8926fd2] code: add Cout A + B
+ 1 file changed, 1 insertion(+)
+
+Выполним коммит с файлом main.cpp где добавили Вывод Разности
+$ git commit -a -m "code: add Cout A - B"
+[master c60b89a] code: add Cout A - B
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Заносим каталог /bin в список игнорируемых и убеждаемся , что это удалось.
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+        obj/
+nothing added to commit but untracked files present (use "git add" to track)
+
+Заносим каталог /obj в список игнорируемых и убеждаемся , что это удалось.
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Добавим файл .gitignore в отслеживаемые (в индекс)
+$ git add .gitignore
+
+Выполним коммит с файлом .gitignore где добавили Вывод Сложения. 
+$ git commit -a -m "git:.gitignore"
+[master 1bce6fa] git:.gitignore
+ 1 file changed, 3 insertions(+)
+ create mode 100644 alice/project/.gitignore
+
+--Просмотр истории--
+
+показывает файлы, измененные в коммитах;
+$ git log --stat
+commit 1bce6fa714be750e6e3a6d083d22a80a4d3b369b (HEAD -> master)
+Author: Alice (AlyonaB) <Vivaldition@yandex.ru>
+Date:   Sun May 9 17:48:36 2021 +0300
+    git:.gitignore
+ alice/project/.gitignore | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit c60b89a6b486cbeaf8c931db1c39cec5b8a79233
+Author: Alice (AlyonaB) <Vivaldition@yandex.ru>
+Date:   Sun May 9 17:32:55 2021 +0300
+    code: add Cout A - B
+ alice/project/main.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 8926fd25403b77f248b9f8be7a4f6baeb49d0213
+Author: Alice (AlyonaB) <Vivaldition@yandex.ru>
+Date:   Sun May 9 17:32:18 2021 +0300
+    code: add Cout A + B
+
+показывает коммиты с "build:" в сообщении.
+$ git log --grep "build:"
+commit cbb10a44124db90663e92f7a9bf5f94aa4ea0b48
+Author: Alice (AlyonaB) <Vivaldition@yandex.ru>
+Date:   Sun May 9 17:26:28 2021 +0300
+    build: add project file
+
+показывает затрагивающие project.cbp;
+$ git log -- project.cbp
+commit cbb10a44124db90663e92f7a9bf5f94aa4ea0b48
+Author: Alice (AlyonaB) <Vivaldition@yandex.ru>
+Date:   Sun May 9 17:26:28 2021 +0300
+    build: add project file
+
+--Просмотр коммитов--
+
+1.(текущий)
+$ git show HEAD
+commit 1bce6fa714be750e6e3a6d083d22a80a4d3b369b (HEAD -> master)
+Author: Alice (AlyonaB) <Vivaldition@yandex.ru>
+Date:   Sun May 9 17:48:36 2021 +0300
+    git:.gitignore
+diff --git a/alice/project/.gitignore b/alice/project/.gitignore
+new file mode 100644
+index 0000000..c6d2f6a
+--- /dev/null
++++ b/alice/project/.gitignore
+@@ -0,0 +1,3 @@
++/bin
++/obj
++
+
+2.(по имени ветви)
+$ git show master
+commit 1bce6fa714be750e6e3a6d083d22a80a4d3b369b (HEAD -> master)
+Author: Alice (AlyonaB) <Vivaldition@yandex.ru>
+Date:   Sun May 9 17:48:36 2021 +0300
+    git:.gitignore
+diff --git a/alice/project/.gitignore b/alice/project/.gitignore
+new file mode 100644
+index 0000000..c6d2f6a
+--- /dev/null
++++ b/alice/project/.gitignore
+@@ -0,0 +1,3 @@
++/bin
++/obj
++
+
+3.(по хэшу нужного коммита)
+$ git show 1bce6f
+commit 1bce6fa714be750e6e3a6d083d22a80a4d3b369b (HEAD -> master)
+Author: Alice (AlyonaB) <Vivaldition@yandex.ru>
+Date:   Sun May 9 17:48:36 2021 +0300
+    git:.gitignore
+diff --git a/alice/project/.gitignore b/alice/project/.gitignore
+new file mode 100644
+index 0000000..c6d2f6a
+--- /dev/null
++++ b/alice/project/.gitignore
+@@ -0,0 +1,3 @@
++/bin
++/obj
++
+
+--Просмотр изменений--
+
+Просмотр изменения между самым первым коммитом и коммитом, 
+добавляющим вывод разности.
+$ git diff HEAD~2
+diff --git a/alice/project/.gitignore b/alice/project/.gitignore
+new file mode 100644
+index 0000000..c6d2f6a
+--- /dev/null
++++ b/alice/project/.gitignore
+@@ -0,0 +1,3 @@
++/bin
++/obj
++
+diff --git a/alice/project/main.cpp b/alice/project/main.cpp
+index 6de6dd2..d8da497 100644
+--- a/alice/project/main.cpp
++++ b/alice/project/main.cpp
+@@ -7,6 +7,7 @@ int main()
+     cout << "Enter A and B: ";
+     int a, b;
+     cin >> a >> b;
+-    cout << "A + B = " << a + b << '\n';
++    cout << "A + B = " << a + b << '\n'
++    << "A - B = " << a - b << '\n';
+     return 0;
+ }
+
+
+Выполним коммит с файлом main.cpp где добавили Вывод Произведения
+$ git commit -a -m "code: Cout A * B"
+[master b65588f] code: Cout A * B
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+--Отправка проекта на GitHub--
+
+$ git push -u origin main
+fatal: helper error (-1): ��������� ���� ��� ��������� ������.
+Enumerating objects: 18, done.
+Counting objects: 100% (18/18), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (16/16), done.
+Writing objects: 100% (18/18), 2.11 KiB | 360.00 KiB/s, done.
+Total 18 (delta 3), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (3/3), done.
+To https://github.com/Vivaldition/cs-lab02.git
+ * [new branch]      main -> main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
+
+--Получение проекта с GitHub--
+
+админ@pc MINGW64 ~/Desktop/lab02/bob
+$ git clone https://github.com/Vivaldition/cs-lab02.git cs-lab02
+Cloning into 'cs-lab02'...
+remote: Enumerating objects: 18, done.
+remote: Counting objects: 100% (18/18), done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 18 (delta 3), reused 18 (delta 3), pack-reused 0
+Receiving objects: 100% (18/18), done.
+Resolving deltas: 100% (3/3), done.
+
+админ@pc MINGW64 ~/Desktop/lab02/bob
+$ cd cs-lab02/
+
+Настроим репозитарий Боба, чтобы коммиты были от ее имени
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git config user.name 'Bob (AlyonaB)'
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git config user.email 'Vivaldition@yandex.ru'
+
+---Совместная работа над проектом без конфликтов правок---
+
+«На машине Боба» добавляем в программу печать деления чисел и сделаем коммит.
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   main.cpp
+no changes added to commit (use "git add" and/or "git commit -a")
+____________________________________________________
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git commit -a -m "code: add Cout A / B"
+[main b0f40cc] code: add Cout A / B
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+
+Отправляем коммит на GitHub
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 379 bytes | 379.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/Vivaldition/cs-lab02.git
+   c0f941f..b0f40cc  main -> main
+
+«На машине Алисы» выполняем загрузку изменений:
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git fetch
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 1), reused 3 (delta 1), pack-reused 0
+Unpacking objects: 100% (3/3), 359 bytes | 3.00 KiB/s, done.
+From https://github.com/Vivaldition/cs-lab02
+   c0f941f..b0f40cc  main       -> origin/main
+
+Продвигаем ветку master к скачанной версии:
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git pull --ff-only
+Updating c0f941f..b0f40cc
+Fast-forward
+ main.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+---Разрешение конфликтов правок при совместной работе---
+
+«От имени Алисы» добавляем в программу печать максимума, сделаем коммит
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git commit -a -m "code: add max(A,B)"
+[main 5bee446] code: add max(A,B)
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Отправляем его на GitHub
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 398 bytes | 398.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/Vivaldition/cs-lab02.git
+   b0f40cc..5bee446  main -> main
+
+«От имени Боба» добавляем в программу печать минимума, сделаем коммит
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git commit -a -m "code: add min(A,B)"
+[main e1b191b] code: add min(A,B)
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Отправляем его на GitHub и ловим ошибку!
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git push
+To https://github.com/Vivaldition/cs-lab02.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/Vivaldition/cs-lab02.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Подгружаем «От лица Боба» коммит максимума 
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git fetch
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 1), reused 3 (delta 1), pack-reused 0
+Unpacking objects: 100% (3/3), 378 bytes | 1024 bytes/s, done.
+From https://github.com/Vivaldition/cs-lab02
+   b0f40cc..5bee446  main       -> origin/main
+
+Смотрим состояние хранилища 
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git log --oneline --decorate --all --graph
+* e1b191b (HEAD -> main) code: add min(A,B)
+| * 5bee446 (origin/main, origin/HEAD) code: add max(A,B)
+|/
+* b0f40cc code: add Cout A / B
+* c0f941f code: add Cout A * B
+* 67e8d36 git:.gitignore
+* 300b6ad code: add Cout A - B
+* 7c17b81 code: add Cout A + B
+* f8bb301 build: add project file
+* 9c7b727 code: add cin A and B
+
+Перемещаем коммит боба поверз коммита Алисы и ловим ошибку
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git rebase origin/master
+fatal: invalid upstream 'origin/master'
+
+Объдениняем и исправляем ошибки 
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git merge origin/main
+Auto-merging main.cpp
+CONFLICT (content): Merge conflict in main.cpp
+Automatic merge failed; fix conflicts and then commit the result.
+
+Фиксируем изменения 
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main|MERGING)
+$ git add main.cpp
+
+Создаём новый коммит ( два в одном и мак и мин)
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main|MERGING)
+$ git commit -a -m "code: add min(A,B) add max(A,B)"
+[main d721bc0] code: add min(A,B) add max(A,B)
+
+Отправляем GitHub «От лица Боба»
+админ@pc MINGW64 ~/Desktop/lab02/bob/cs-lab02 (main)
+$ git push
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 713 bytes | 713.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To https://github.com/Vivaldition/cs-lab02.git
+   5bee446..d721bc0  main -> main
+
+«От лица Aлисы» загружаем с GitHub
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git fetch
+remote: Enumerating objects: 10, done.
+remote: Counting objects: 100% (10/10), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 6 (delta 2), reused 6 (delta 2), pack-reused 0
+Unpacking objects: 100% (6/6), 693 bytes | 2.00 KiB/s, done.
+From https://github.com/Vivaldition/cs-lab02
+   5bee446..d721bc0  main       -> origin/main
+
+Подгружаем изменения 
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git pull --ff-only
+Updating 5bee446..d721bc0
+Fast-forward
+ main.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+---Использование веток---
+
+Создаём ветку double «От лица Aлисы»
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git branch double
+
+Переходим на ветку double «От лица Aлисы»
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git checkout double
+Switched to branch 'double'
+
+Делаем коммит в этой ветке, где заменили тип a,b  с int на double
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (double)
+$ git commit -a -m "code: double A,B"
+[double 775a4ff] code: double A,B
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Переходим на ветку main
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (double)
+$ git checkout main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+Отправляем данные на GitHub.
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git push
+Everything up-to-date
+
+Смотрим историю всех веток
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git log --oneline --decorate --all --graph
+* 775a4ff (double) code: double A,B
+*   d721bc0 (HEAD -> main, origin/main) code: add min(A,B) add max(A,B)
+|\
+| * 5bee446 code: add max(A,B)
+* | e1b191b code: add min(A,B)
+|/
+* b0f40cc code: add Cout A / B
+* c0f941f code: add Cout A * B
+* 67e8d36 git:.gitignore
+* 300b6ad code: add Cout A - B
+* 7c17b81 code: add Cout A + B
+* f8bb301 build: add project file
+* 9c7b727 code: add cin A and B
+
+Сливаем ветку double в main
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git merge double
+Updating d721bc0..775a4ff
+Fast-forward
+ main.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+После исправлений и создания нового коммита смотри историю всех веток
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git log --oneline --decorate --all --graph
+* 775a4ff (HEAD -> main, double) code: double A,B
+*   d721bc0 (origin/main) code: add min(A,B) add max(A,B)
+|\
+| * 5bee446 code: add max(A,B)
+* | e1b191b code: add min(A,B)
+|/
+* b0f40cc code: add Cout A / B
+* c0f941f code: add Cout A * B
+* 67e8d36 git:.gitignore
+* 300b6ad code: add Cout A - B
+* 7c17b81 code: add Cout A + B
+* f8bb301 build: add project file
+* 9c7b727 code: add cin A and B
+
+Отправляем на GitHub.
+админ@pc MINGW64 ~/Desktop/lab02/alice/project (main)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 364 bytes | 364.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/Vivaldition/cs-lab02.git
+   d721bc0..775a4ff  main -> main
+
+Конец
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
